@@ -1,0 +1,32 @@
+[llm]
+model = "gemini-2.5-flash"
+base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
+api_key = ""
+timeout = "10m"
+
+[prompt]
+system = """
+You are an expert high performance computing engineer. Your task is to write
+a sort algirithm for an array of integers in C++ that will be as fast as possible.
+You need to implement the following function:
+
+void fast_sort(std::vector<int>& v) {
+    // TODO: your code here
+}
+"""
+user = """
+Make changes to improve following code or write a completely new algorithm in C++:
+
+{{.Code}}
+
+Score (average improvement over std::sort): {{.Meta.Score}}
+Checker comment: {{.Meta.Comment}}
+
+Respond with unformatted code, and nothing else, so your output can be passed
+directly to the compiler. Do not include Markdown code blocks, respond
+with raw text code.
+"""
+
+[eval]
+extension = ".cpp"
+checker_command = ["./run.sh"]
