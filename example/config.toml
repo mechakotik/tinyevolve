@@ -2,7 +2,6 @@
 model = "gemini-2.5-flash"
 base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
 api_key = ""
-timeout = "10m"
 
 [prompt]
 system = """

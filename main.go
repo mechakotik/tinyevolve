@@ -14,7 +14,6 @@ import (
 	"strconv"
 	"strings"
 	"text/template"
-	"time"
 
 	"github.com/BurntSushi/toml"
 	"github.com/alexflint/go-arg"
@@ -43,7 +42,6 @@ var state struct {
 			Model   string
 			BaseURL string `toml:"base_url"`
 			APIKey  string `toml:"api_key"`
-			Timeout time.Duration
 		}
 		Prompt struct {
 			System string
@@ -52,7 +50,6 @@ var state struct {
 		Eval struct {
 			Command   []string `toml:"command"`
 			Extension string
-			Timeout   time.Duration
 		}
 	}
 	TempPath  string
