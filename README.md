@@ -11,10 +11,10 @@ Existing implementations of AlphaEvolve out there contain complex heuristics tha
 Each solution is represented by a file with code. On each iteration, tinyevolve:
 
 1. Takes some solution from a set of existing solutions as a base (see `getBaseSolutionID`)
-2. Asks LLM to improve it, using template prompt from config, code of base solution, its score and comment from checker
-3. Evaluates the result using checker command from config (`eval.checker_command`), appending path to new solution file to the arguments. Checker should print float score in a first line of stdout, and the rest of the output is treated as checker comment
+2. Asks LLM to improve it, using template prompt from config, code of base solution, its score and comment from evaluator
+3. Evaluates the result using command from config (`eval.command`), appending path to new solution file to the arguments. The command should print float score in a first line of stdout, and the rest of the output is treated as evaluator comment
 
-tinyevolve stores the solutions in a data directory. For each solution, it also stores metadata in a `.meta` file, which contains solution score and checker comment. If some solutions have no corresponding `.meta` file, checker will be run for them to generate it. You can stop evolution at any moment and continue without losing the progress by just passing the same data directory.
+tinyevolve stores the solutions in a data directory. For each solution, it also stores metadata in a `.meta` file, which contains solution score and evaluator comment. If some solutions have no corresponding `.meta` file, evaluator will be run for them to generate it. You can stop evolution at any moment and continue without losing the progress by just passing the same data directory.
 
 ## Example
 
@@ -29,11 +29,11 @@ void fast_sort(std::vector<int> &v) {
 }
 ```
 
-We save it in `data` directory as `initial.cpp`. On startup, tinyevolve will run checker on it and generate `.meta` file. Adding initial solution is optional, without it tinyevolve will just start from empty solution and LLM (with proper prompt) will generate initial solutions by itself.
+We save it in `data` directory as `initial.cpp`. On startup, tinyevolve will run evaluator on it and generate `.meta` file. Adding initial solution is optional, without it tinyevolve will just start from empty solution and LLM (with proper prompt) will generate initial solutions by itself.
 
-Then we define a score function that we want to maximize - an average performance improvement over `std::sort` on different input sizes: 1, 2, 5, 10, 100, 1000, 10000, 100000, 1000000. We write an evaluator that is compiled alongside with `fast_sort` implementation. It benchmarks `fast_sort` and prints result in stdout: score if everything is OK and `-1` if implementation gives wrong answer.
+Then we define a score function that we want to maximize - an average performance improvement over `std::sort` on different input sizes: 1, 2, 5, 10, 100, 1000, 10000, 100000, 1000000. We write main file that is compiled alongside with `fast_sort` implementation. It benchmarks `fast_sort` and prints result in stdout: score if everything is OK and `-1` if implementation gives wrong answer.
 
-We also need a program that will compile and run our code and return evaluation result. For this we write a shell script that takes path to solution code file as the only argument, evaluates it, prints in stdout score value on the first line and checker comment on the rest. Checker comment tells what's exactly went wrong with solution: if it's compilation error, it will write error message from the compiler, if evaluation exceeded time limit, it will say so.
+We also need a program that will compile and run our code and return evaluation result. For this we write a shell script that takes path to solution code file as the only argument, evaluates it, prints in stdout score value on the first line and evaluator comment on the rest. Evaluator comment tells what's exactly went wrong with solution: if it's compilation error, it will write error message from the compiler, if evaluation exceeded time limit, it will say so.
 
 To run the example, you'll need to install C++ and Go compiler. Then build tinyevolve with:
 

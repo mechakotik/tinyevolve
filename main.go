@@ -50,9 +50,9 @@ var state struct {
 			User   string
 		}
 		Eval struct {
-			CheckerCommand []string `toml:"checker_command"`
-			Extension      string
-			Timeout        time.Duration
+			Command   []string `toml:"command"`
+			Extension string
+			Timeout   time.Duration
 		}
 	}
 	TempPath  string
@@ -261,11 +261,10 @@ func evaluateCode(code string) (float64, string) {
 		return math.Inf(-1), fmt.Sprintf("write temp file failed: %s", err)
 	}
 
-	command := state.Config.Eval.CheckerCommand
-	command = append(command, path)
+	command := append(state.Config.Eval.Command, path)
 	resultBytes, err := exec.Command(command[0], command[1:]...).Output()
 	if err != nil {
-		return math.Inf(-1), fmt.Sprintf("run checker failed: %s", err)
+		return math.Inf(-1), fmt.Sprintf("run evaluator failed: %s", err)
 	}
 
 	score, comment := parseResult(string(resultBytes))

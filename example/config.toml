@@ -20,7 +20,7 @@ Make changes to improve following code or write a completely new algorithm in C+
 {{.Code}}
 
 Score (average improvement over std::sort): {{.Meta.Score}}
-Checker comment: {{.Meta.Comment}}
+Evaluator comment: {{.Meta.Comment}}
 
 Respond with unformatted code, and nothing else, so your output can be passed
 directly to the compiler. Do not include Markdown code blocks, respond
@@ -29,4 +29,4 @@ with raw text code.
 
 [eval]
 extension = ".cpp"
-checker_command = ["./run.sh"]
+command = ["./run.sh"]
