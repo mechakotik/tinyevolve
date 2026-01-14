@@ -47,3 +47,22 @@ Specify your LLM's OpenAI compatible endpoint, model and API key in `examples/co
 ../tinyevolve --config config.toml --data data --iterations 100
 ```
 
+After a few iterations our initial solution had evolved into radix sort, which is 4.96x faster than `std::sort` on an array of integers:
+
+```
+> ../tinyevolve --config config.toml --data data --iterations 100
+2026/01/14 15:05:05 solution initial meta not found, running evaluation
+2026/01/14 15:05:13 solution initial score 0.994900, comment "ok"
+2026/01/14 15:05:13 new best solution initial found, score 0.994900
+2026/01/14 15:05:13 loaded 1 solutions from data
+2026/01/14 15:05:13 generating new solution from ancestor initial (score 0.994900)
+2026/01/14 15:05:59 solution uIzl9Xce score 4.515990, comment "ok"
+2026/01/14 15:05:59 new best solution uIzl9Xce found, score 4.515990
+...
+2026/01/14 15:17:13 generating new solution from ancestor uIzl9Xce (score 4.515990)
+2026/01/14 15:18:09 solution LHYa7teF score 4.969685, comment "ok"
+2026/01/14 15:18:09 new best solution LHYa7teF found, score 4.969685
+```
+
+Source code of this solution is in `data/LHYa7teF.cpp`.
+
